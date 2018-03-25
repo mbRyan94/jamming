@@ -20,7 +20,7 @@ const Spotify = {
   },
 
   search(term) {
-    fetch(`https://api.spotify.com/v1/search?q=${term}&type=TRACK`,
+    fetch(`https://api.spotify.com/v1/search?type=track&q=${term}`,
           {
             headers: {
               Authorization: `Bearer ${usersAccessToken}`
@@ -29,26 +29,23 @@ const Spotify = {
       if (response.ok) {
         return response.json();
       }
-      throw new error('Request failed!');
-    }, networkError => consol.log(networkError.message)).then(jsonResponse => {
-        let tracks = [];
+      throw new Error('Request failed!');
+    }, networkError => console.log(networkError.message)).then(jsonResponse => {
 
-        if (!jsonResponse) {
-          return tracks;
+        if (!jsonResponse.tracks) {
+          return [];
         } else {
-          return jsonResponse.map(track => {
-            tracks.push({
-              id: track.id,
-              name: track.name,
-              artist: track.artists[0].name,
-              album: track.album.name,
-              uri: track.uri
-            })
+          return jsonResponse.tracks.items.map(track => {
+              return {
+                id: track.id,
+                name: track.name,
+                artist: track.artists[0].name,
+                album: track.album.name,
+                uri: track.uri
+              }
+
           });
         }
-
-
-        return tracks;
       })
   }
 
