@@ -46,18 +46,20 @@ class App extends Component {
     this.search = this.search.bind(this);
   }
 
-  addTrack(track) {
-    let onTracklist = false;
-    this.state.playListTracks.forEach(playListTrack => {
-      if (playListTrack.id === track.id) {
-        onTracklist = true;
-      }
 
-      if (!onTracklist) {
-        this.state.playListTracks.push(track);
-        this.setState({playListTracks: this.state.playListTracks});
-      }
-    });
+  search(term) {
+    console.log(term);
+    Spotify.search(term).then(track => {
+    this.setState({searchResults: track});
+    })
+  }
+
+  addTrack(track) {
+    let playList = this.state.playListTracks;
+    if (!this.state.playListTracks.find(playListTrack => track.id === playListTrack.id)){
+      playList.push(track);
+    }
+      this.setState({playListTracks: playList});
   }
 
   removeTrack(track) {
@@ -76,11 +78,7 @@ class App extends Component {
 
   }
 
-  search(searchTerm) {
-    console.log(searchTerm);
-    let results = Spotify.search(searchTerm);
-    this.setState({searchResults: results});
-  }
+
 
   render() {
     return (
