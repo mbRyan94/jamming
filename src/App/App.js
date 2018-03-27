@@ -10,33 +10,9 @@ import Spotify from '../util/Spotify';
 class App extends Component {
   constructor(props) {
     super(props);
-    this.state = {searchResults: [
-      /*{
-        name: 'Tiny Dancer',
-        artist: 'Elton John',
-        album: 'Madman across the water',
-        id: 1
-      },
-      {
-        name: 'Tiny Dancer',
-        artist: 'Tim McGraw',
-        album: 'Love Storys',
-        id: 2
-      }
-    */
-    ]
-    ,
-
+    this.state = {searchResults: [],
     playlistName: 'Test',
-    playListTracks:
-      [
-        /*{
-        name: 'Tiny Dancer',
-        artist: 'Elton John',
-        album: 'Madman across the water',
-        id: 1
-      }*/
-    ]
+    playListTracks: []
   };
 
     this.addTrack = this.addTrack.bind(this);
@@ -51,7 +27,7 @@ class App extends Component {
     console.log(term);
     Spotify.search(term).then(track => {
     this.setState({searchResults: track});
-    })
+    });
   }
 
   addTrack(track) {
@@ -75,9 +51,12 @@ class App extends Component {
     let trackUris = this.state.playListTracks.map(playListTrack => {
       return playListTrack.uri;
     });
-
+    Spotify.savePlaylist(this.state.playlistName, trackUris).then(
+      this.setState({playlistName: 'New Playlist'}),
+      this.setState({searchResults: []}),
+      this.setState({playListTracks: []})
+    );
   }
-
 
 
   render() {
