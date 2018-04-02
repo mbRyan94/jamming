@@ -20,18 +20,29 @@
     animation-duration: 3.2s;
 }
 
-.modal-header, .modal-footer {
+.modal-header{
     height: 50px;
     background: linear-gradient(to bottom right, #6c41ec, #ffc0cb);
+}
+
+.modal-footer {
+    height: 50px;
+    background: linear-gradient(to bottom right, #ffc0cb, #6c41ec);
 }
 
 .modal-body {
     text-align: center;
     padding: 10% 0;
+    color: black;
+}
+
+.modal-text {
+    padding-top: 5%;
 }
 
 .modal-body p {
-    padding-top: 2%;
+    padding-top: 5%;
+    font-size: 70%;
 }
 
 @keyframes modalOpen {
